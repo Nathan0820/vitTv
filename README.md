@@ -1,6 +1,6 @@
-# vitTv
+# Welcome to VitTv!
 
-A retro-style TV interface built with React and Vite. Watch YouTube videos by changing channels on a vintage TV set.
+A retro-style TV interface built with React and Vite. Watch vintage shows or commercials by changing channels on a vintage TV set.
 
 ## Features
 
@@ -41,7 +41,3 @@ npm run dev
 - React
 - Vite
 - Tailwind CSS
-
-## License
-
-MIT
