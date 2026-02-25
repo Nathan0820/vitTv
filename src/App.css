@@ -1,6 +1,37 @@
 @import "tailwindcss";
 
-/* Enhanced Wood grain texture effect */
+/* 80s/90s room - dark with subtle grid */
+.era-80s-room {
+  background: 
+    linear-gradient(180deg, #0a0a12 0%, #0d0d18 25%, #12121f 50%, #0d0d18 75%, #0a0a12 100%);
+  position: relative;
+}
+
+/* Horizon grid lines - synthwave aesthetic */
+.era-80s-room::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to bottom, transparent 0%, rgba(0, 255, 255, 0.03) 50%, transparent 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(0, 200, 255, 0.04) 50px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle vignette + noise */
+.era-80s-room::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.5) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* TV frame - subtle plastic texture (replaces wood grain) */
 .tv-frame::before {
   content: '';
   position: absolute;
@@ -9,24 +40,9 @@
   right: 0;
   bottom: 0;
   background-image: 
-    repeating-linear-gradient(
-      0deg,
-      rgba(139, 115, 85, 0.15) 0px,
-      transparent 1px,
-      transparent 2px,
-      rgba(107, 93, 79, 0.15) 3px,
-      transparent 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(74, 61, 46, 0.12) 0px,
-      transparent 1px,
-      transparent 35px,
-      rgba(58, 47, 31, 0.12) 36px,
-      transparent 37px,
-      transparent 75px
-    );
-  border-radius: 25px;
+    linear-gradient(105deg, transparent 48%, rgba(255, 255, 255, 0.02) 50%, transparent 52%),
+    linear-gradient(75deg, transparent 48%, rgba(255, 255, 255, 0.015) 50%, transparent 52%);
+  border-radius: 16px;
   pointer-events: none;
   z-index: 1;
 }
@@ -102,32 +118,41 @@
 @keyframes pulse-custom {
   0%, 100% {
     box-shadow: 
-      0 0 25px rgba(255, 107, 107, 0.8),
-      0 6px 15px rgba(0, 0, 0, 0.4),
-      inset 0 3px 8px rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
+      0 0 18px rgba(0, 255, 255, 0.5),
+      0 6px 15px rgba(0, 0, 0, 0.5),
+      inset 0 3px 8px rgba(255, 255, 255, 0.1);
+    transform: scale(1.08);
   }
   50% {
     box-shadow: 
-      0 0 35px rgba(255, 107, 107, 1),
+      0 0 25px rgba(0, 255, 255, 0.7),
       0 8px 20px rgba(0, 0, 0, 0.5),
-      inset 0 4px 10px rgba(255, 255, 255, 0.4);
-    transform: scale(1.12);
+      inset 0 4px 10px rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
   }
 }
 
 @keyframes glow {
   0%, 100% {
     text-shadow: 
-      0 0 15px rgba(0, 255, 0, 0.8),
-      0 0 30px rgba(0, 255, 0, 0.4),
-      0 0 45px rgba(0, 255, 0, 0.2);
+      0 0 15px rgba(255, 80, 80, 0.9),
+      0 0 30px rgba(255, 80, 80, 0.5),
+      0 0 45px rgba(255, 80, 80, 0.2);
   }
   50% {
     text-shadow: 
-      0 0 20px rgba(0, 255, 0, 1),
-      0 0 40px rgba(0, 255, 0, 0.6),
-      0 0 60px rgba(0, 255, 0, 0.3);
+      0 0 22px rgba(255, 80, 80, 1),
+      0 0 40px rgba(255, 80, 80, 0.65),
+      0 0 60px rgba(255, 80, 80, 0.3);
+  }
+}
+
+@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
   }
 }
 
@@ -147,6 +172,57 @@
   perspective: 1000px;
 }
 
+/* 80s/90s display font - LED/digital style */
+.font-display-80s {
+  font-family: 'Orbitron', 'Share Tech Mono', monospace;
+}
+
+/* Retro channel display font - VCR/LED readout style */
+.font-channel-display {
+  font-family: 'VT323', 'Share Tech Mono', monospace;
+}
+
+/* VCR on-screen display */
+.channel-title {
+  font-family: 'VT323', 'Share Tech Mono', monospace;
+  font-weight: 400;
+  animation: channel-led-glow 2.5s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.channel-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.2) 1px,
+    rgba(0, 0, 0, 0.2) 2px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+@keyframes channel-led-glow {
+  0%, 100% {
+    text-shadow: 
+      0 0 8px rgba(255, 50, 50, 0.9),
+      0 0 20px rgba(255, 50, 50, 0.45),
+      0 0 35px rgba(255, 50, 50, 0.2);
+  }
+  50% {
+    text-shadow: 
+      0 0 12px rgba(255, 50, 50, 1),
+      0 0 28px rgba(255, 50, 50, 0.6),
+      0 0 45px rgba(255, 50, 50, 0.3);
+  }
+}
+
 /* Smooth transitions for all interactive elements */
 button {
   will-change: transform, box-shadow;
@@ -164,10 +240,36 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 25px;
+  border-radius: 16px;
   pointer-events: none;
   box-shadow: 
-    inset 0 0 50px rgba(0, 0, 0, 0.3),
-    inset 0 0 100px rgba(0, 0, 0, 0.1);
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 60px rgba(0, 50, 80, 0.05);
   z-index: 2;
+}
+
+/* CRT screen bezel - dark with subtle cyan edge */
+.crt-screen {
+  border-radius: 6px;
+  box-shadow: 
+    inset 0 0 50px rgba(0, 0, 0, 0.6),
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px #2a2a2a,
+    0 0 0 6px rgba(80, 180, 200, 0.15);
+}
+
+/* Scanlines - subtler for 80s CRT */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
 }
