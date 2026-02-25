@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import BackgroundEffects from './components/BackgroundEffects'
 import TVFrame from './components/TVFrame'
+import { Analytics } from '@vercel/analytics/react'
 
 const videos = [
   { id: 1, title: 'Channel 1', videoId: 'tgoUa2wWvAQ' },
@@ -45,6 +46,7 @@ function App() {
           onPowerToggle={togglePower}
         />
       </div>
+      <Analytics />
     </div>
   )
 }
