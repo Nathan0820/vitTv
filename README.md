@@ -9,32 +9,12 @@ A retro-style TV interface built with React and Vite. Watch vintage shows or com
 - Power on/off functionality
 - Responsive design
 
-## Getting Started
+## Testing the Website
 
-### Prerequisites
+Go try it on the website!
 
-- Node.js (v14 or higher)
-- npm or yarn
+[Click here!](https://vit-tv.vercel.app/)
 
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/Nathan0820/vitTv.git
-cd vitTv
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-4. Open your browser and navigate to the URL shown in the terminal (usually `http://localhost:5173`)
 
 ## Built With
 
