@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import './App.css'
 import BackgroundEffects from './components/BackgroundEffects'
 import TVFrame from './components/TVFrame'
+import { playPowerClick, playChannelSwitch, playStaticBurst, startHum, stopHum } from './utils/sounds'
 
 const videos = [
   { id: 1, title: 'CH 1', videoId: 'tgoUa2wWvAQ' },
@@ -14,21 +15,39 @@ const videos = [
   { id: 8, title: 'CH 8', videoId: 'NAWOdnuDBBU' },
 ]
 
+const STATIC_DURATION = 300
+
 function App() {
   const [currentChannel, setCurrentChannel] = useState(1)
   const [isOn, setIsOn] = useState(false)
+  const [isSwitching, setIsSwitching] = useState(false)
+  const switchTimerRef = useRef(null)
 
-  // Get the current video ID
   const currentVideo = videos.find(v => v.id === currentChannel)
   const videoId = currentVideo?.videoId || ''
 
-  const handleChannelChange = (channelId) => {
-    setCurrentChannel(channelId)
-  }
+  const handleChannelChange = useCallback((channelId) => {
+    if (channelId === currentChannel) return
+    clearTimeout(switchTimerRef.current)
+    setIsSwitching(true)
+    playChannelSwitch()
+    playStaticBurst()
+    switchTimerRef.current = setTimeout(() => {
+      setCurrentChannel(channelId)
+      setIsSwitching(false)
+    }, STATIC_DURATION)
+  }, [currentChannel])
 
-  const togglePower = () => {
-    setIsOn(!isOn)
-  }
+  const togglePower = useCallback(() => {
+    playPowerClick()
+    if (!isOn) {
+      setIsOn(true)
+      startHum()
+    } else {
+      stopHum()
+      setIsOn(false)
+    }
+  }, [isOn])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden era-80s-room">
@@ -37,6 +56,7 @@ function App() {
       <div className="perspective-800 w-full max-w-[700px] relative z-10">
         <TVFrame
           isOn={isOn}
+          isSwitching={isSwitching}
           videoId={videoId}
           videoTitle={currentVideo?.title}
           videos={videos}

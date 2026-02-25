@@ -1,31 +1,24 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getYouTubeEmbedUrl } from '../utils/youtube'
 
-export default function TVScreen({ isOn, videoId, videoTitle }) {
+export default function TVScreen({ isOn, isSwitching, videoId, videoTitle }) {
   const [showChannelTitle, setShowChannelTitle] = useState(false)
   const [isFadingOut, setIsFadingOut] = useState(false)
   const [flickerOpacity, setFlickerOpacity] = useState(1)
-  const flickerRef = useRef(null)
-
-  const scheduleFlicker = useCallback(() => {
-    const nextDelay = 3000 + Math.random() * 8000
-    flickerRef.current = setTimeout(() => {
-      const intensity = 0.92 + Math.random() * 0.06
-      setFlickerOpacity(intensity)
-      setTimeout(() => setFlickerOpacity(1), 60 + Math.random() * 80)
-      scheduleFlicker()
-    }, nextDelay)
-  }, [])
+  const flickerTimerRef = useRef(null)
 
   useEffect(() => {
-    if (isOn) {
-      scheduleFlicker()
-    } else {
-      clearTimeout(flickerRef.current)
-      setFlickerOpacity(1)
+    if (isOn && videoId && !isSwitching) {
+      setFlickerOpacity(0.88)
+      flickerTimerRef.current = setTimeout(() => setFlickerOpacity(0.94), 50)
+      const restore = setTimeout(() => setFlickerOpacity(1), 120)
+      return () => {
+        clearTimeout(flickerTimerRef.current)
+        clearTimeout(restore)
+      }
     }
-    return () => clearTimeout(flickerRef.current)
-  }, [isOn, scheduleFlicker])
+    if (!isOn) setFlickerOpacity(1)
+  }, [isOn, videoId, isSwitching])
 
   useEffect(() => {
     if (isOn && videoTitle) {
@@ -73,7 +66,13 @@ export default function TVScreen({ isOn, videoId, videoTitle }) {
             </div>
           )}
           
-          {isOn && videoId ? (
+          {isSwitching ? (
+            <div className="w-full h-full bg-[#1a1a1a] flex items-center justify-center relative overflow-hidden">
+              <div className="absolute inset-0 static-lines"></div>
+              <div className="absolute inset-0 static-noise opacity-60"></div>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08),transparent_70%)]"></div>
+            </div>
+          ) : isOn && videoId ? (
             <iframe
               src={getYouTubeEmbedUrl(videoId)}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

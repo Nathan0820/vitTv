@@ -1,6 +1,7 @@
 import ChannelDisplay from './ChannelDisplay'
 import ChannelButtons from './ChannelButtons'
 import PowerButton from './PowerButton'
+import TVBrand from './TVBrand'
 
 export default function TVControls({ videos, currentChannel, isOn, onChannelChange, onPowerToggle }) {
   return (
@@ -16,6 +17,8 @@ export default function TVControls({ videos, currentChannel, isOn, onChannelChan
       <div className="flex items-center justify-center mt-4">
         <PowerButton isOn={isOn} onToggle={onPowerToggle} />
       </div>
+
+      <TVBrand />
     </div>
   )
 }
